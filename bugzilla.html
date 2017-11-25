@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <link rel="stylesheet" href="bugzilla.css"/>
+    <title>Bugzilla contributor sorting</title>
+    <link rel="icon" type="image/svg+xml" href="question.svg" />
+  </head>
+  <body>
+    <div class="container">
+      <h3>Bugzilla contributors</h3>
+      <p>An attempt to figure out the paid vs not-paid contributors out of a bugzilla query. It does this by querying the <a href="#" id="return">page you came from</a>. Don't close it.</p>
+      <p>Total number of not-paid contributors in this query: <span class="label label-success" id="total"></span>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Person</th>
+            <th>Paid</th>
+            <th>Bugs</th>
+          </tr>
+        </thead>
+        <tbody id="entries">
+        </tbody>
+      </table>
+      <hr>
+    </div>
+    <script src="bugzilla.js"></script>
+  </body>
+</html>

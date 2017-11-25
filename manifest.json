@@ -1,0 +1,32 @@
+{
+  "description": "Sort bugzilla contributors from a query",
+  "homepage_url": "https://github.com/andymckay/bugzilla-contributor-sort",
+  "manifest_version": 2,
+  "name": "Bugzilla contributor sorting",
+  "permissions": [
+      "activeTab",
+      "storage",
+      "tabs"
+  ],
+  "page_action": {
+    "browser_style": true,
+    "default_title": "Bugzilla contributor sorting",
+    "default_icon": {
+      "128": "question.svg"
+    }
+  },
+  "version": "0.1",
+  "content_scripts": [
+    {
+      "matches": ["https://bugzilla.mozilla.org/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "128": "question.svg"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
