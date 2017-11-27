@@ -15,7 +15,7 @@
       "128": "question.svg"
     }
   },
-  "version": "0.1",
+  "version": "0.2",
   "content_scripts": [
     {
       "matches": ["https://bugzilla.mozilla.org/*"],

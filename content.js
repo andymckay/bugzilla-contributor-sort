@@ -1,9 +1,10 @@
 function checkValid() {
   let found_assignee = false;
+
   if (document.getElementById('login_link_top')) {
     return found_assignee;
   }
-
+  
   let table_header = document.getElementsByClassName('sortable_column_');
   for (let element of table_header) {
     if (element.innerText.match(/Assignee/)) {

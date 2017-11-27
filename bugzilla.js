@@ -1,5 +1,5 @@
 let root = document.getElementById('entries');
-var exceptions_storage = null;
+let exceptions_storage = null;
 
 function isMozilla(name) {
   if (name.match(/(mozilla.org|mozilla.com)$/)) {
@@ -9,7 +9,7 @@ function isMozilla(name) {
 }
 
 function isPaid(name) {
-  return isMozilla(name) || exceptions_storage.indexOf(name) > -1;
+  return isMozilla(name) || (exceptions_storage && exceptions_storage.indexOf(name) > -1);
 }
 
 function addContributor(bugs, name, source) {
@@ -79,7 +79,7 @@ function toggle(event) {
 function findContributors(tabId) {
   browser.storage.local.get('exceptions')
   .then(response => {
-    exceptions_storage = response.exceptions;
+    exceptions_storage = response.exceptions || null;
   }).then(_ => {
     browser.tabs.sendMessage(tabId, {query: 'contributors'})
     .then(response => {
