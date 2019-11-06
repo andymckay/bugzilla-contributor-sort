@@ -21,7 +21,10 @@ function getContributors() {
   for (let element of elements) {
     let key = element.innerText;
     let existing = assignees.get(key) || [];
-    existing.push(element.parentNode.getElementsByClassName('bz_id_column')[0].innerText);
+    existing.push({
+      id: element.parentNode.getElementsByClassName('bz_id_column')[0].innerText,
+      summary: element.parentNode.getElementsByClassName("bz_short_desc_column")[0].innerText
+    });
     assignees.set(key, existing);
   }
 

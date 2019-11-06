@@ -22,11 +22,13 @@ function addContributor(bugs, name, source) {
   tdName.appendChild(aName);
 
   let tdBugs = document.createElement('td');
+  tdBugs.className = "bugs";
   for (let bug of bugs) {
     let aBug = document.createElement('a');
-    aBug.innerText = bug;
+    aBug.innerText = bug.id;
     aBug.className = 'label label-default bug';
-    aBug.href = `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug}`;
+    aBug.href = `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`;
+    aBug.title = `Bug ${bug.id} - ${bug.summary}`;
     tdBugs.appendChild(aBug);
   }
 
@@ -34,11 +36,14 @@ function addContributor(bugs, name, source) {
   let paid = isPaid(name);
   let aPaid = document.createElement('a');
   aPaid.innerText = paid ? (isMozilla(name) ? 'MOZILLA' : 'YES') : 'NO';
-  aPaid.className = paid ? (isMozilla(name) ? 'label label-info' : 'label label-primary') : 'label label-success contributor';
+  aPaid.className = paid ? (isMozilla(name) ? 'label label-info mozilla' : 'label label-primary paid') : 'label label-success contributor';
   aPaid.dataset.name = name;
   aPaid.dataset.paid = paid;
   aPaid.addEventListener('click', toggle);
+
   tdPaid.appendChild(aPaid);
+
+  tr.className = paid ? (isMozilla(name) ? 'mozilla' : 'paid') : 'contributor';
 
   tr.appendChild(tdName);
   tr.appendChild(tdPaid);
@@ -77,16 +82,32 @@ function toggle(event) {
 }
 
 function findContributors(tabId) {
-  browser.storage.local.get('exceptions')
+  return browser.storage.local.get('exceptions')
   .then(response => {
     exceptions_storage = response.exceptions || null;
   }).then(_ => {
-    browser.tabs.sendMessage(tabId, {query: 'contributors'})
+    return browser.tabs.sendMessage(tabId, {query: 'contributors'})
     .then(response => {
       response.contributors.forEach(addContributor);
       document.getElementById('total').innerText = document.getElementsByClassName('contributor').length;
     });
   });
+}
+
+function sortContributors() {
+  const order = ["contributor", "paid", "mozilla"];
+  let nodes = [...root.children].sort((a, b) => {
+    let sort = order.indexOf(a.className) - order.indexOf(b.className);
+    if (sort != 0) {
+      return sort;
+    }
+
+    return b.querySelector("td.bugs").children.length - a.querySelector("td.bugs").children.length;
+  });
+
+  for (let node of nodes) {
+    root.appendChild(node);
+  }
 }
 
 document.getElementById('return').addEventListener('click', event => {
@@ -95,4 +116,4 @@ document.getElementById('return').addEventListener('click', event => {
 
 let url = new URL(window.location);
 let tabId = parseInt(url.searchParams.get('tabId'));
-findContributors(tabId);
+findContributors(tabId).then(() => sortContributors());
