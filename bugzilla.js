@@ -25,9 +25,10 @@ function addContributor(bugs, name, source) {
   tdBugs.className = "bugs";
   for (let bug of bugs) {
     let aBug = document.createElement('a');
-    aBug.innerText = bug;
+    aBug.innerText = bug.id;
     aBug.className = 'label label-default bug';
-    aBug.href = `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug}`;
+    aBug.href = `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`;
+    aBug.title = `Bug ${bug.id} - ${bug.summary}`;
     tdBugs.appendChild(aBug);
   }
 
