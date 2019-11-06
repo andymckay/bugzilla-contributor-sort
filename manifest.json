@@ -3,6 +3,11 @@
   "homepage_url": "https://github.com/andymckay/bugzilla-contributor-sort",
   "manifest_version": 2,
   "name": "Bugzilla contributor sorting",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{47e68ac3-624a-4841-89e7-3f046b6e4a39}"
+    }
+  },
   "permissions": [
       "activeTab",
       "storage",
@@ -15,7 +20,7 @@
       "128": "question.svg"
     }
   },
-  "version": "0.2",
+  "version": "0.3",
   "content_scripts": [
     {
       "matches": ["https://bugzilla.mozilla.org/*"],
